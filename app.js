@@ -14,23 +14,6 @@ var authRoutes            = require("./routes/authentication"),
     campgroundRoutes      = require("./routes/campgrounds"),
     commentRoutes         = require("./routes/comments");
 
-
-//=======connect to local host=======
-// mongoose.connect("mongodb://localhost:27017/yelpcamp", {useNewUrlParser: true, useCreateIndex : true});
-//===================================
-//=======connect to heroku host=======
-// mongoose.connect('mongodb+srv://ooeven:9enqqjC23ISbt8wE@cluster0-j1e8t.mongodb.net/test?retryWrites=true&w=majority', {
-// 	useNewUrlParser : true,
-// 	useCreateIndex : true,
-// 	useFindAndModify: false,
-// }).then(() => {
-// 	console.log("Connected to DB!") ;
-// }).catch(err => {
-// 	console.log(err.message) ;
-// });
-//===================================
-//export sensitive information that we don't want other to use by using env.DATABASEURL
-//and setting backup DB.
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelpcamp";
 mongoose.connect(url, {useNewUrlParser: true, useCreateIndex : true,});
 
