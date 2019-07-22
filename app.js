@@ -13,8 +13,27 @@ var express               = require("express"),
 var authRoutes            = require("./routes/authentication"),
     campgroundRoutes      = require("./routes/campgrounds"),
     commentRoutes         = require("./routes/comments");
-    
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true});
+
+
+//=======connect to local host=======
+// mongoose.connect("mongodb://localhost:27017/yelpcamp", {useNewUrlParser: true, useCreateIndex : true});
+//===================================
+//=======connect to heroku host=======
+// mongoose.connect('mongodb+srv://ooeven:9enqqjC23ISbt8wE@cluster0-j1e8t.mongodb.net/test?retryWrites=true&w=majority', {
+// 	useNewUrlParser : true,
+// 	useCreateIndex : true,
+// 	useFindAndModify: false,
+// }).then(() => {
+// 	console.log("Connected to DB!") ;
+// }).catch(err => {
+// 	console.log(err.message) ;
+// });
+//===================================
+//export sensitive information that we don't want other to use by using env.DATABASEURL
+//and setting backup DB.
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelpcamp";
+mongoose.connect(url, {useNewUrlParser: true, useCreateIndex : true,});
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -50,6 +69,7 @@ app.use("/", authRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function(req, res){
-   console.log("YelpCamp Server Is Running");
+var port = process.env.PORT || 3050;
+app.listen(port, function () {
+  console.log("Server started!");
 });
